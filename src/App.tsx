@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import FolderPage from "./pages/FolderPage";
+import Auth from "./pages/AuthPage";
+import "./App.css";
+import theme from "./theme";
+import { ThemeProvider } from "@mui/material";
 
-function App() {
+const App: React.FC = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const authKey = localStorage.getItem("authKey");
+    console.log(authKey, process.env.REACT_APP_SECRET_KEY);
+    if (authKey === process.env.REACT_APP_SECRET_KEY) {
+      setAuthenticated(true);
+    }
+  }, []);
+
+  const handleAuth = () => {
+    setAuthenticated(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          {!authenticated ? (
+            <Route path="*" element={<Auth onAuth={handleAuth} />} />
+          ) : (
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/folders/:id" element={<FolderPage />} />
+            </>
+          )}
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
