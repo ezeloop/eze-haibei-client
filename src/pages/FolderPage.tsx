@@ -114,7 +114,7 @@ const FolderPage: React.FC = () => {
                   borderColor: "#F9F9E0", // color del borde cuando el campo está enfocado
                 },
                 "& .MuiInputLabel-root": {
-                  color: "#FF9EAA", // color del label por defecto
+                  color: "#FF9EAA",
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
                   color: "#FF9EAA", // color del label cuando el campo está enfocado
