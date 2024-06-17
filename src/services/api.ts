@@ -3,6 +3,7 @@ import { editFolderServiceInterface, editTaskServiceInterface } from './interfac
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_API,
+  withCredentials: true,
 });
 
 export const getFolders = () => api.get('/folders');
