@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   getFolderTasks,
@@ -25,20 +25,20 @@ const FolderPage: React.FC = () => {
   const [folderName, setFolderName] = useState("");
   const navigate = useNavigate();
 
-  const loadTasks = async () => {
+  const loadTasks = useCallback(async () => {
     if (id) {
       const response = await getFolderTasks(id);
       setTasks(response.data);
     }
-  };
+  }, [id]);
 
-  const fetchFolderName = async () => {
+  const fetchFolderName = useCallback(async () => {
     const response = await getFolders();
     const folder = response.data.find((folder: any) => folder._id === id);
     if (folder) {
       setFolderName(folder.name);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     loadTasks();
