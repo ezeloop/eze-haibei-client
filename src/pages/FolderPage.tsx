@@ -4,7 +4,7 @@ import {
   getFolderTasks,
   createTask,
   deleteTask,
-  updateTask, // Importar updateTask
+  updateTask,
   getFolders,
 } from "../services/api";
 import {
@@ -14,6 +14,7 @@ import {
   Button,
   Typography,
   Grid,
+  Paper,
 } from "@mui/material";
 import Task from "../components/task";
 
@@ -65,6 +66,11 @@ const FolderPage: React.FC = () => {
     }
   };
 
+  const handleUpdateTask = async (taskId: string, newTitle: string) => {
+    await updateTask(taskId, { title: newTitle });
+    loadTasks();
+  };
+
   return (
     <Box
       display="flex"
@@ -80,11 +86,7 @@ const FolderPage: React.FC = () => {
         <Typography variant="h4" gutterBottom>
           Tasks in Folder: {folderName}
         </Typography>
-        <Button
-          variant="outlined"
-          color="warning"
-          onClick={() => navigate("/")}
-        >
+        <Button variant="outlined" color="info" onClick={() => navigate("/")}>
           Go Back to Home
         </Button>
         <Box
@@ -92,42 +94,75 @@ const FolderPage: React.FC = () => {
           justifyContent="center"
           alignContent={"center"}
           my={2}
+          mb={6}
         >
           <TextField
             label="New Task"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             variant="outlined"
+            color="secondary"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#FFD0D0", // color del borde por defecto
+                },
+                "&:hover fieldset": {
+                  borderColor: "#FF9EAA", // color del borde al pasar el cursor
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#F9F9E0", // color del borde cuando el campo está enfocado
+                },
+                "& .MuiInputLabel-root": {
+                  color: "#FF9EAA", // color del label por defecto
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#FF9EAA", // color del label cuando el campo está enfocado
+                },
+              },
+            }}
           />
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             onClick={handleCreateTask}
             sx={{ ml: 2 }}
           >
             Add Task
           </Button>
         </Box>
-        {tasks.length === 0 ? (
-          <Typography variant="body1" color="textSecondary" align="center">
-            No tasks, go ahead and create one!
-          </Typography>
-        ) : (
-          <Grid container spacing={3}>
-            {tasks.map((task: any) => (
-              <Grid item key={task._id} xs={12} md={6}>
-                <Task
-                  key={task._id}
-                  title={task.title}
-                  id={task._id}
-                  completed={task.completed}
-                  onDelete={handleDeleteTask}
-                  onToggleComplete={handleToggleComplete}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        )}
+        <Paper
+          sx={{
+            padding: 4,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#FFD0D0",
+            borderRadius: "25px",
+          }}
+        >
+          {tasks.length === 0 ? (
+            <Typography variant="body1" color="textSecondary" align="center">
+              Empty :C, go ahead and create one, babe!
+            </Typography>
+          ) : (
+            <Grid container spacing={3}>
+              {tasks.map((task: any) => (
+                <Grid item key={task._id} xs={12} md={6}>
+                  <Task
+                    key={task._id}
+                    title={task.title}
+                    id={task._id}
+                    completed={task.completed}
+                    onDelete={handleDeleteTask}
+                    onToggleComplete={handleToggleComplete}
+                    onUpdateTask={handleUpdateTask}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          )}
+        </Paper>
       </Container>
     </Box>
   );

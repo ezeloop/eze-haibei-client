@@ -8,11 +8,10 @@ import theme from "./theme";
 import { ThemeProvider } from "@mui/material";
 
 const App: React.FC = () => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(true);
 
   useEffect(() => {
     const authKey = localStorage.getItem("authKey");
-    console.log(authKey, process.env.REACT_APP_SECRET_KEY);
     if (authKey === process.env.REACT_APP_SECRET_KEY) {
       setAuthenticated(true);
     }
