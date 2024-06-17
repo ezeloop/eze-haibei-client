@@ -25,11 +25,6 @@ const FolderPage: React.FC = () => {
   const [folderName, setFolderName] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    loadTasks();
-    fetchFolderName();
-  }, [id]);
-
   const loadTasks = async () => {
     if (id) {
       const response = await getFolderTasks(id);
@@ -44,6 +39,11 @@ const FolderPage: React.FC = () => {
       setFolderName(folder.name);
     }
   };
+
+  useEffect(() => {
+    loadTasks();
+    fetchFolderName();
+  }, [id, loadTasks, fetchFolderName]);
 
   const handleCreateTask = async () => {
     if (newTask && id) {

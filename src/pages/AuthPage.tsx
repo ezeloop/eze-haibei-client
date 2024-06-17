@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
-import ReCAPTCHA from "react-google-recaptcha";
 
 const Auth: React.FC<{ onAuth: () => void }> = ({ onAuth }) => {
   const [key, setKey] = useState("");
-  const [captchaVerified, setCaptchaVerified] = useState(false);
 
   const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKey(e.target.value);
-  };
-
-  const handleCaptchaChange = (value: string | null) => {
-    setCaptchaVerified(!!value);
   };
 
   const handleAuth = () => {
