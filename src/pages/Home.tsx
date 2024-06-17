@@ -119,7 +119,7 @@ const Home: React.FC = () => {
             sx={{
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
-                  borderColor: "#FFD0D0", // color del borde por defecto
+                  borderColor: "#FFD0D0",
                 },
                 "&:hover fieldset": {
                   borderColor: "#FF9EAA", // color del borde al pasar el cursor
